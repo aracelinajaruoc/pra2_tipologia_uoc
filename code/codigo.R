@@ -16,9 +16,9 @@ library(tinytex)
 library(klaR)
 
 
-# Resolución de la práctica
+# ResoluciÃ³n de la prÃ¡ctica
 
-## Descripción del dataset
+## DescripciÃ³n del dataset
 
 
 # lectura dataset
@@ -57,9 +57,9 @@ kable(data.frame(variables=names(res),clase=as.vector(res)))
 
 str(base_heart)
 
-### Eliminación de valores nulos, outliers
+### EliminaciÃ³n de valores nulos, outliers
 
-# Números de valores desconocidos por campo
+# NÃºmeros de valores desconocidos por campo
 sapply(base_heart, function(x) sum(is.na(x)))
 
 sum(duplicated(base_heart))
@@ -77,7 +77,7 @@ dim(base_heart)
 
 variables_base <- names(base_heart)
 
-# gráfico de caja y bigotes
+# grÃ¡fico de caja y bigotes
 c1 <- ggplot(base_heart, aes(y = trtbps)) +
   stat_boxplot(geom = "errorbar", width = 0.25) + 
   geom_boxplot(color = "black", fill = "lightblue") +
@@ -105,26 +105,26 @@ c5 <- ggplot(base_heart, aes(y = age)) +
 
 plot_grid(c1,c2,c3,c4,c5, nrow=1, ncol=5, labels='') 
 
-# valores atípicos de trtbps
+# valores atÃ­picos de trtbps
 boxplot.stats(base_heart$trtbps)$out
-# valores atípicos de chol
+# valores atÃ­picos de chol
 boxplot.stats(base_heart$chol)$out
-# valores atípicos de thalachh
+# valores atÃ­picos de thalachh
 boxplot.stats(base_heart$thalachh)$out
-# valores atípicos de oldpeak
+# valores atÃ­picos de oldpeak
 boxplot.stats(base_heart$oldpeak)$out
 
-### Conversión de los datos
+### ConversiÃ³n de los datos
 
 base_heart[,c(4,5,8,10)] <- scale(base_heart[,c(4,5,8,10)])
 
 head(base_heart)
 
-### Exportación de los datos preprocesados
+### ExportaciÃ³n de los datos preprocesados
 
 write.csv(base_heart, "heart_data_clean.csv")
 
-## Análisis de los datos
+## AnÃ¡lisis de los datos
 
 num_heart <- base_heart[, c(1,4,5,8,10)]
 categ_heart <- base_heart[, -c(1,4,5,8,10)]
@@ -150,7 +150,7 @@ h5 <-ggplot(num_heart, aes(x = oldpeak)) + geom_histogram(color = "black", fill 
 plot_grid(h1, h2, h3, h4, h5, nrow = 2, ncol = 3, labels = '') 
 
 
-# Gráficos de barras variables categóricas
+# GrÃ¡ficos de barras variables categÃ³ricas
 b1 <- ggplot(categ_heart, aes(x = sex, fill = sex)) + geom_bar(color = "black") +
   labs(title = "Sex", x = 'sex', y = 'Count') + theme_classic() +
   theme(legend.title = element_blank()) +
@@ -182,7 +182,7 @@ b6 <- ggplot(categ_heart, aes(x = slp, fill = slp)) + geom_bar(color = "black") 
   scale_fill_discrete(breaks=c("0", "1", "2"), labels=c("Unsloping", "Flat", "Downslopping"))
 
 b7 <- ggplot(categ_heart, aes(x = caa, fill = caa)) + geom_bar(color = "black") +
-  labs(title = "Nº of major vessels", x = 'caa', y = 'Count') + theme_classic() + 
+  labs(title = "NÂº of major vessels", x = 'caa', y = 'Count') + theme_classic() + 
   theme(legend.title = element_blank()) +
   scale_fill_discrete(breaks=c("0", "1", "2", "3"), labels=c("0", "1", "2", "3"))
 
@@ -200,7 +200,7 @@ b9 <- ggplot(categ_heart, aes(x = output, fill = output)) + geom_bar(color = "bl
 plot_grid(b1, b2, b3, b4, b5, b6, b7, b8, b9, nrow = 5, ncol = 2, labels = '') 
 
 
-### Selección de los grupos de datos que se quieren analizar/comparar.
+### SelecciÃ³n de los grupos de datos que se quieren analizar/comparar.
 
 # variables numericas
 plt <- ggpairs(num_heart,columns=1:5,ggplot2::aes(alpha=0.75,color=base_heart$output),
@@ -243,7 +243,7 @@ p11 <- ggplot(categ_heart, aes(x = slp, fill = output)) + geom_bar() +
                     values = c("darkorchid1", "chartreuse3"))
 
 p12 <- ggplot(categ_heart, aes(x = caa, fill = output)) + geom_bar() + 
-  labs(title = "Nº of major vessels", y = 'Count') + theme_classic() +
+  labs(title = "NÂº of major vessels", y = 'Count') + theme_classic() +
   theme(legend.position = "bottom") +
   scale_fill_manual(labels = c("Less chance heart attack", "More chance heart attack"),
                     values = c("darkorchid1", "chartreuse3"))
@@ -259,7 +259,7 @@ plot_grid(p6, p7, p8, p9, p10, p11, p12, p13, nrow = 4, ncol = 2, labels = '')
 # analisis estadistico descriptivo
 summary(base_heart)
 
-### Comprobación de la normalidad y homogeneidad de la varianza.
+### ComprobaciÃ³n de la normalidad y homogeneidad de la varianza.
 
 # normalidad shapiro-wilk
 apply(num_heart, 2, shapiro.test)
@@ -271,9 +271,9 @@ fligner.test(chol ~ output, base_heart)
 fligner.test(thalachh ~ output, base_heart)
 fligner.test(oldpeak ~ output, base_heart)
 
-## Pruebas estadísticas
+## Pruebas estadÃ­sticas
 
-### Contraste de hipótesis
+### Contraste de hipÃ³tesis
  
 # Test Chi-cuadrado para las variables cualitativas.
 sex_output <- table(base_heart$sex, base_heart$output)
@@ -303,10 +303,10 @@ chisq.test(thall_output)
 #Test de Mann-Whitney para las variables cuantitativas. 
 lapply(base_heart[,c(1,4,5,8,10)], function(x) wilcox.test(x ~ base_heart$output, paired = F))
 
-### Correlación
+### CorrelaciÃ³n
 cm <- cor(num_heart, method = "spearman")
 cm
-corrplot(cm, method="color") # Representación gráfica
+corrplot(cm, method="color") # RepresentaciÃ³n grÃ¡fica
 
 # Correlacion Spearman + significancia
 cor1 <- cor.test(num_heart$age,num_heart$trtbps, method="spearman")
@@ -330,8 +330,8 @@ cor9$p.value
 cor10 <- cor.test(num_heart$thalachh,num_heart$oldpeak, method="spearman")
 cor10$p.value
 
-### Métodos supervisados de clasificación.
-####	Partición de los datos
+### MÃ©todos supervisados de clasificaciÃ³n.
+####	ParticiÃ³n de los datos
 
 # Division Test-train
 set.seed(1234)
@@ -393,7 +393,7 @@ knn_results$overall
 knn_acc <- knn_results$overall['Accuracy']
 
 
-# comparación accuracy
+# comparaciÃ³n accuracy
 model_names <- c("Naive Bayes", "Random Forest", "SVM", "Logistic Regression", 'KNN')
 
 acc <- c(nb_acc, rf_acc, svm_acc, lg_acc, knn_acc)
